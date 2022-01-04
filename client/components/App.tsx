@@ -9,13 +9,13 @@ const App = () => {
   return (
     <PagerView style={styles.container} initialPage={0}>
       <View key="1" style={styles.item}>
-        <Text>Page 1</Text>
+        <Text style={styles.text}>Page 1</Text>
       </View>
       <View key="2" style={styles.item}>
-        <Text>Page 2</Text>
+        <Text style={styles.text}>Page 2</Text>
       </View>
       <View key="3" style={styles.item}>
-        <Text>Page 3</Text>
+        <Text style={styles.text}>Page 3</Text>
       </View>
     </PagerView>
   );
@@ -32,8 +32,11 @@ function createStyles(isDarkMode: boolean) {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+    },
+    text: {
       backgroundColor: isDarkMode ? 'black' : 'white',
       color: isDarkMode ? 'white' : 'black',
+      fontFamily: 'OldStandardTT-Regular',
     },
   });
 }
