@@ -1,16 +1,17 @@
-import React, { useMemo } from 'react';
-import { Text } from 'react-native';
-import useUserDefinedColorScheme from '../colorScheme/hooks';
+import React from 'react';
+import { Body, Heading } from '../primitives/typography';
 import PageContainer from './PageContainer';
-import createStyles from './styles';
 
 export default function GoldPage() {
-  const { colorScheme } = useUserDefinedColorScheme();
-  const styles = useMemo(() => createStyles(colorScheme), [colorScheme]);
-
   return (
     <PageContainer>
-      <Text style={styles.body}>Page 1</Text>
+      <Heading level={1}>Heading 1</Heading>
+      <Heading level={2}>Heading 2</Heading>
+      <Heading level={3}>Heading 3</Heading>
+      <Heading level={4}>Heading 4</Heading>
+      <Heading level={5}>Heading 5</Heading>
+      <Heading level={6}>Heading 6</Heading>
+      <Body>Page 1</Body>
     </PageContainer>
   );
 }
