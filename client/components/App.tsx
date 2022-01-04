@@ -1,44 +1,35 @@
-import React, { useMemo } from 'react';
-import { StyleSheet, Text, useColorScheme, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, useColorScheme, View } from 'react-native';
 import { PagerView } from 'react-native-pager-view';
+import ColorSchemeContext from './colorScheme/context';
+import GoldPage from './pages/GoldPage';
+import OthersPage from './pages/OthersPage';
+import TimePage from './pages/TimePage';
 
-const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-  const styles = useMemo(() => createStyles(isDarkMode), [isDarkMode]);
-
+export default function App() {
+  const [colorScheme, setColorScheme] = useState(useColorScheme());
+  const pages = [
+    <GoldPage key="1" />,
+    <TimePage key="2" />,
+    <OthersPage key="3" />,
+  ];
+  /**
+   * https://github.com/callstack/react-native-pager-view#usage
+   * Attention: Note that you can only use View components as children of PagerView (cf. folder /example)
+   */
   return (
-    <PagerView style={styles.container} initialPage={0}>
-      <View key="1" style={styles.item}>
-        <Text style={styles.text}>Page 1</Text>
-      </View>
-      <View key="2" style={styles.item}>
-        <Text style={styles.text}>Page 2</Text>
-      </View>
-      <View key="3" style={styles.item}>
-        <Text style={styles.text}>Page 3</Text>
-      </View>
-    </PagerView>
+    <ColorSchemeContext.Provider value={[colorScheme, setColorScheme]}>
+      <PagerView style={styles.container} initialPage={0}>
+        {pages.map(page => (
+          <View key={page.key}>{page}</View>
+        ))}
+      </PagerView>
+    </ColorSchemeContext.Provider>
   );
-};
-
-function createStyles(isDarkMode: boolean) {
-  return StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    item: {
-      width: '100%',
-      height: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    text: {
-      backgroundColor: isDarkMode ? 'black' : 'white',
-      color: isDarkMode ? 'white' : 'black',
-      fontFamily: 'OldStandardTT-Regular',
-    },
-  });
 }
 
-export default App;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
