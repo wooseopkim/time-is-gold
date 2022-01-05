@@ -24,19 +24,36 @@ interface BodyProps extends TextProps {}
 
 const defaultHeadingLevel = 3;
 
-export function Heading({ level, children }: HeadingProps) {
-  const style = {
+export function Heading({
+  level,
+  children,
+  style: passedStyle,
+  ...rest
+}: HeadingProps) {
+  const originalStyle = {
     fontSize: (fontSizeUnit * (10 - (level ?? defaultHeadingLevel))) / 4,
   };
+  const composedStyle = StyleSheet.compose<TextStyle>(
+    originalStyle,
+    passedStyle,
+  );
+
   return (
-    <StyledText getStyle={styles => styles.heading} style={style}>
+    <StyledText
+      getStyle={styles => styles.heading}
+      style={composedStyle}
+      {...rest}>
       {children}
     </StyledText>
   );
 }
 
-export function Body({ children }: BodyProps) {
-  return <StyledText getStyle={styles => styles.body}>{children}</StyledText>;
+export function Body({ children, ...rest }: BodyProps) {
+  return (
+    <StyledText getStyle={styles => styles.body} {...rest}>
+      {children}
+    </StyledText>
+  );
 }
 
 function StyledText<T extends StyleProp<TextStyle>>(props: StyledTextProps<T>) {
