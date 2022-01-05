@@ -6,21 +6,24 @@ import {
   Text,
   TextProps,
   TextStyle,
+  TouchableOpacity,
 } from 'react-native';
 import useUserDefinedColorScheme from '../colorScheme/hooks';
 import { fontSizeUnit } from '../responsiveness';
 
 type StyleGetter<T> = (x: ReturnType<typeof createStyles>) => T;
 
-interface StyledTextProps<T> extends TextProps {
+interface TypographyProps extends TextProps {}
+
+interface StyledTextProps<T> extends TypographyProps {
   getStyle: StyleGetter<T>;
 }
 
-interface HeadingProps extends TextProps {
+interface HeadingProps extends TypographyProps {
   level?: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
-interface BodyProps extends TextProps {}
+interface BodyProps extends TypographyProps {}
 
 const defaultHeadingLevel = 3;
 
@@ -56,18 +59,27 @@ export function Body({ children, ...rest }: BodyProps) {
   );
 }
 
-function StyledText<T extends StyleProp<TextStyle>>(props: StyledTextProps<T>) {
-  const { getStyle, children, style: passedStyle, ...rest } = props;
+function StyledText<T extends StyleProp<TextStyle>>({
+  getStyle,
+  children,
+  style: passedStyle,
+  onPress,
+  ...rest
+}: StyledTextProps<T>) {
   const { colorScheme } = useUserDefinedColorScheme();
   const styles = useMemo(() => createStyles(colorScheme), [colorScheme]);
   const originalStyle = useMemo(() => getStyle(styles), [getStyle, styles]);
   const composedStyle = StyleSheet.compose(originalStyle, passedStyle);
 
-  return (
+  const text = (
     <Text style={composedStyle} {...rest}>
       {children}
     </Text>
   );
+  if (onPress) {
+    return <TouchableOpacity onPress={onPress}>{text}</TouchableOpacity>;
+  }
+  return text;
 }
 
 function createStyles(colorScheme: ColorSchemeName) {

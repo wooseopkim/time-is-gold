@@ -9,14 +9,14 @@ export default function OthersPage() {
   return (
     <PageContainer>
       <Heading>{translate('enjoyGame')}</Heading>
-      <Body>{translate('seeAchievements')}</Body>
-      <Body>{translate('changeLanguage')}</Body>
-      <Body>{translate('changeBackground')}</Body>
-      <Body>{translate('restorePurchases')}</Body>
-      <Body>{translate('watchAd')}</Body>
-      <Body>{translate('seeThirdPartyLicenses')}</Body>
-      <Body>{translate('seeSourceCode')}</Body>
-      <Body>{translate('buyMeACoffee')}</Body>
+      <Body onPress={() => {}}>{translate('seeAchievements')}</Body>
+      <Body onPress={() => {}}>{translate('changeLanguage')}</Body>
+      <Body onPress={() => {}}>{translate('changeBackground')}</Body>
+      <Body onPress={() => {}}>{translate('restorePurchases')}</Body>
+      <Body onPress={() => {}}>{translate('watchAd')}</Body>
+      <Body onPress={() => {}}>{translate('seeThirdPartyLicenses')}</Body>
+      <Body onPress={() => {}}>{translate('seeSourceCode')}</Body>
+      <Body onPress={() => {}}>{translate('buyMeACoffee')}</Body>
     </PageContainer>
   );
 }
