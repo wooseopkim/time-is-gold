@@ -1,17 +1,20 @@
 import React from 'react';
+import { useTranslator } from '../i18n/hooks';
 import { Body, Heading } from '../primitives/typography';
 import PageContainer from './PageContainer';
 
 export default function GoldPage() {
+  const translate = useTranslator();
+
   return (
     <PageContainer>
-      <Heading level={1}>Heading 1</Heading>
-      <Heading level={2}>Heading 2</Heading>
-      <Heading level={3}>Heading 3</Heading>
-      <Heading level={4}>Heading 4</Heading>
-      <Heading level={5}>Heading 5</Heading>
-      <Heading level={6}>Heading 6</Heading>
-      <Body>Page 1</Body>
+      <Heading level={2}>{translate('timeIsGold')}</Heading>
+      <Body>{translate('youHaveEarned')({ amount: 0 })}</Body>
+      <Body>{translate('byPlayingFor')({ seconds: 0 })}</Body>
+      <Body>{translate('nextPayoutIsIn')({ seconds: 1 })}</Body>
+      <Body>
+        {translate('youAreTopPlayer')({ rank: 1, ratio: 0.01, group: 'all' })}
+      </Body>
     </PageContainer>
   );
 }

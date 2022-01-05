@@ -1,5 +1,5 @@
 import React, { ReactNode, useMemo } from 'react';
-import { ColorSchemeName, StyleSheet, View } from 'react-native';
+import { ColorSchemeName, ScrollView, StyleSheet, View } from 'react-native';
 import useUserDefinedColorScheme from '../colorScheme/hooks';
 
 interface Props {
@@ -10,7 +10,11 @@ export default function PageContainer({ children }: Props) {
   const { colorScheme } = useUserDefinedColorScheme();
   const styles = useMemo(() => createStyles(colorScheme), [colorScheme]);
 
-  return <View style={styles.layout}>{children}</View>;
+  return (
+    <View style={styles.layout}>
+      <ScrollView>{children}</ScrollView>
+    </View>
+  );
 }
 
 function createStyles(colorScheme: ColorSchemeName) {

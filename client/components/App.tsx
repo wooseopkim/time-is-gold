@@ -1,13 +1,27 @@
 import React, { useState } from 'react';
-import { StyleSheet, useColorScheme, View } from 'react-native';
+import {
+  NativeModules,
+  Platform,
+  StyleSheet,
+  useColorScheme,
+  View,
+} from 'react-native';
 import { PagerView } from 'react-native-pager-view';
 import ColorSchemeContext from './colorScheme/context';
+import LocaleContext from './i18n/context';
 import GoldPage from './pages/GoldPage';
 import OthersPage from './pages/OthersPage';
 import TimePage from './pages/TimePage';
 
+const defaultLocale =
+  Platform.OS === 'ios'
+    ? NativeModules.SettingsManager.settings.AppleLocale ||
+      NativeModules.SettingsManager.settings.AppleLanguages[0] //iOS 13
+    : NativeModules.I18nManager.localeIdentifier;
+
 export default function App() {
   const [colorScheme, setColorScheme] = useState(useColorScheme());
+  const [locale, setLocale] = useState(defaultLocale);
 
   const pages = [
     <GoldPage key="1" />,
@@ -28,7 +42,9 @@ export default function App() {
 
   return (
     <ColorSchemeContext.Provider value={[colorScheme, setColorScheme]}>
-      {pager}
+      <LocaleContext.Provider value={[locale, setLocale]}>
+        {pager}
+      </LocaleContext.Provider>
     </ColorSchemeContext.Provider>
   );
 }
