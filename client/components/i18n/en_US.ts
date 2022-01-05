@@ -50,7 +50,7 @@ const en_US: Locale = {
   }): string =>
     `Buy ${format(amount)} gold (${formatCurrency(price, currency)}).`,
   buyAnimeGirl: ({ gold }: { gold: number }): string =>
-    `Buy an anime girl (${gold} gold)`,
+    `Buy an anime girl (${gold} gold).`,
   seeAchievements: 'See achievements.',
   changeLanguage: 'Change language.',
   changeBackground: 'Change background.',
