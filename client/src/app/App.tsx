@@ -4,6 +4,9 @@ import ColorSchemeContext from './colorScheme/context';
 import LocaleContext from './i18n/context';
 import ContentPager from './pager/ContentPager';
 import PaginatedPager from './pager/PaginatedPager';
+import GoldPage from './pages/GoldPage';
+import OthersPage from './pages/OthersPage';
+import TimePage from './pages/TimePage';
 
 const defaultLocale =
   Platform.OS === 'ios'
@@ -15,10 +18,19 @@ export default function App() {
   const [colorScheme, setColorScheme] = useState(useColorScheme());
   const [locale, setLocale] = useState(defaultLocale);
 
+  const renderContentPager = () => (
+    <ContentPager
+      items={[
+        <GoldPage key="1" />,
+        <TimePage key="2" />,
+        <OthersPage key="3" />,
+      ]}
+    />
+  );
   return (
     <ColorSchemeContext.Provider value={[colorScheme, setColorScheme]}>
       <LocaleContext.Provider value={[locale, setLocale]}>
-        <PaginatedPager render={ContentPager} />
+        <PaginatedPager render={renderContentPager} />
       </LocaleContext.Provider>
     </ColorSchemeContext.Provider>
   );
