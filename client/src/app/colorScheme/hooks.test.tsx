@@ -1,5 +1,5 @@
 import { renderHook, RenderHookOptions } from '@testing-library/react-hooks';
-import React, { useState } from 'react';
+import React from 'react';
 import { ColorSchemeName } from 'react-native';
 import { act } from 'react-test-renderer';
 import ColorSchemeContext from './context';
@@ -20,18 +20,6 @@ test('setColorScheme calls given function', () => {
   act(() => result.current.setColorScheme('dark'));
 
   expect(setter).toHaveBeenCalledWith('dark');
-});
-
-test('multiple instances share values', () => {
-  const options = createOptions(() => useState<ColorSchemeName>('light'));
-  const { result } = renderHook(
-    () => [useUserDefinedColorScheme(), useUserDefinedColorScheme()],
-    options,
-  );
-
-  act(() => result.current[0].setColorScheme('dark'));
-
-  expect(result.current[1].colorScheme).toBe('dark');
 });
 
 function createOptions(
