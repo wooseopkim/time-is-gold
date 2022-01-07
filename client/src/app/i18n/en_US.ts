@@ -60,6 +60,7 @@ const en_US: Locale = {
   seeThirdPartyLicenses: 'See third-party licenses.',
   seeSourceCode: 'See source code.',
   buyMeACoffee: 'Buy me a coffee.',
+  licenses: 'Third-Party Licenses',
 };
 
 export default en_US;

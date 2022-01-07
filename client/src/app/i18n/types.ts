@@ -40,4 +40,5 @@ export type Locale = {
   seeThirdPartyLicenses: string;
   seeSourceCode: string;
   buyMeACoffee: string;
+  licenses: string;
 };

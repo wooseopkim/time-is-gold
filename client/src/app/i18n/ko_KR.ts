@@ -59,6 +59,7 @@ const ko_KR: Locale = {
   seeThirdPartyLicenses: '서드파티 라이선스를 봅니다.',
   seeSourceCode: '소스 코드를 봅니다.',
   buyMeACoffee: '개발자에게 커피를 사줍니다.',
+  licenses: '서드파티 라이선스',
 };
 
 export default ko_KR;
