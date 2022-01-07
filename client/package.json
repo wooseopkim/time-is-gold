@@ -1,7 +1,10 @@
 {
   "name": "timeisgold",
   "version": "0.0.1",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wooseopkim/time-is-gold"
+  },
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
