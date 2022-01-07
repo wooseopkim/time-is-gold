@@ -1,4 +1,4 @@
-import { createNumberFormatter } from './format';
+import { format } from './format';
 import { Locale, PlayerGroup } from './types';
 
 const en_US: Locale = {
@@ -64,8 +64,6 @@ const en_US: Locale = {
 
 export default en_US;
 
-const format = createNumberFormatter(en_US.meta.name);
-
 function formatCurrency(amount: number, currency: string): string {
-  return `${currency}${format(amount)}`;
+  return `${currency}${format(amount, en_US.meta.name)}`;
 }

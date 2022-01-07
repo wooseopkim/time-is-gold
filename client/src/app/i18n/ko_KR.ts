@@ -1,4 +1,4 @@
-import { createNumberFormatter } from './format';
+import { format } from './format';
 import { Locale, PlayerGroup } from './types';
 
 const ko_KR: Locale = {
@@ -63,8 +63,6 @@ const ko_KR: Locale = {
 
 export default ko_KR;
 
-const format = createNumberFormatter(ko_KR.meta.name);
-
 function formatCurrency(amount: number, currency: string): string {
-  return `${currency}${format(amount)}`;
+  return `${currency}${format(amount, ko_KR.meta.name)}`;
 }

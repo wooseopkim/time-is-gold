@@ -1,10 +1,7 @@
-import { createNumberFormatter } from './format';
-import { LocaleCode } from './types';
+import { format } from './format';
 
 describe('createNumberFormatter', () => {
   test('default parameters', () => {
-    const format = createNumberFormatter();
-
     const result = format(123456789.123);
 
     expect(result).toBe('123,456,789.123');
@@ -14,9 +11,7 @@ describe('createNumberFormatter', () => {
     ['ko-KR', '123,456,789.123'],
     ['fr-FR', '123 456 789,123'],
   ])('formats with given locale %s', (locale, expected) => {
-    const format = createNumberFormatter(locale as LocaleCode);
-
-    const result = format(123456789.1234);
+    const result = format(123456789.1234, locale);
 
     expect(result).toBe(expected);
   });
