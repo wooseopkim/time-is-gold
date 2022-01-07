@@ -1,9 +1,10 @@
-import createNumberFormatter from './format';
+import { createNumberFormatter } from './format';
 import { Locale, PlayerGroup } from './types';
 
-const format = createNumberFormatter();
-
 const ko_KR: Locale = {
+  meta: {
+    name: 'ko-KR',
+  },
   timeIsGold: '이곳에서, 시간은 금입니다.',
   goldIsTime: '그리고, 금은 시간입니다.',
   enjoyGame: '"돈낭비: 시간은 금이다"를 즐겨주세요!',
@@ -61,6 +62,8 @@ const ko_KR: Locale = {
 };
 
 export default ko_KR;
+
+const format = createNumberFormatter(ko_KR.meta.name);
 
 function formatCurrency(amount: number, currency: string): string {
   return `${currency}${format(amount)}`;

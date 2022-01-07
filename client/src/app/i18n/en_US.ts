@@ -1,9 +1,10 @@
-import createNumberFormatter from './format';
+import { createNumberFormatter } from './format';
 import { Locale, PlayerGroup } from './types';
 
-const format = createNumberFormatter();
-
 const en_US: Locale = {
+  meta: {
+    name: 'en-US',
+  },
   timeIsGold: 'Here, time is gold...',
   goldIsTime: 'And, gold is time.',
   enjoyGame: 'Enjoy Time Is Gold: A Waste of Money!',
@@ -62,6 +63,8 @@ const en_US: Locale = {
 };
 
 export default en_US;
+
+const format = createNumberFormatter(en_US.meta.name);
 
 function formatCurrency(amount: number, currency: string): string {
   return `${currency}${format(amount)}`;

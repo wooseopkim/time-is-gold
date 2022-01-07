@@ -1,12 +1,5 @@
-export default function createNumberFormatter(
-  every: number = 3,
-  delimiter: string = ',',
-  fractionPoint: string = '.',
-) {
+export function createNumberFormatter(locale?: string) {
   return (value: number) => {
-    return value
-      .toString()
-      .replace('.', fractionPoint)
-      .replace(new RegExp(`(.)(?=(\\d{${every}})+$)`, 'g'), `$1${delimiter}`);
+    return value.toLocaleString(locale?.replace('_', '-'));
   };
 }

@@ -4,6 +4,9 @@ type Platform = 'ios' | 'android';
 export type PlayerGroup = 'all' | Platform;
 
 export type Locale = {
+  meta: {
+    name: string;
+  };
   timeIsGold: string;
   goldIsTime: string;
   enjoyGame: string;
