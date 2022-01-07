@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
   PagerViewOnPageScrollEvent,
@@ -15,9 +15,9 @@ export default function PaginatedPager({ render }: Props) {
     offset: 0,
     position: 0,
   });
-  const onPageScroll = useCallback((e: PagerViewOnPageScrollEvent) => {
+  const onPageScroll = (e: PagerViewOnPageScrollEvent) => {
     setLastEvent(e.nativeEvent);
-  }, []);
+  };
 
   const page = Math.round(position + offset + 1);
 

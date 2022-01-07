@@ -1,13 +1,11 @@
+import { NavigationContainer } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { NativeModules, Platform, useColorScheme } from 'react-native';
-import { PagerViewProps } from 'react-native-pager-view';
 import ColorSchemeContext from './colorScheme/context';
 import LocaleContext from './i18n/context';
-import ContentPager from './pager/ContentPager';
-import PaginatedPager from './pager/PaginatedPager';
-import GoldPage from './pages/GoldPage';
-import OthersPage from './pages/OthersPage';
-import TimePage from './pages/TimePage';
+import Stack from './navigation/Stack';
+import GameScreen from './screens/GameScreen';
+import { GAME_SCREEN } from './screens/names';
 
 const defaultLocale =
   Platform.OS === 'ios'
@@ -19,20 +17,18 @@ export default function App() {
   const [colorScheme, setColorScheme] = useState(useColorScheme());
   const [locale, setLocale] = useState(defaultLocale);
 
-  const renderContentPager = (props: PagerViewProps) => (
-    <ContentPager
-      items={[
-        <GoldPage key="1" />,
-        <TimePage key="2" />,
-        <OthersPage key="3" />,
-      ]}
-      {...props}
-    />
-  );
   return (
     <ColorSchemeContext.Provider value={[colorScheme, setColorScheme]}>
       <LocaleContext.Provider value={[locale, setLocale]}>
-        <PaginatedPager render={renderContentPager} />
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name={GAME_SCREEN}
+              component={GameScreen}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
       </LocaleContext.Provider>
     </ColorSchemeContext.Provider>
   );
