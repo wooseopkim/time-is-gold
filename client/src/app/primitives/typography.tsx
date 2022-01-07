@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import {
   ColorSchemeName,
   StyleProp,
@@ -13,7 +13,9 @@ import { fontSizeUnit } from '../responsiveness';
 
 type StyleGetter<T> = (x: ReturnType<typeof createStyles>) => T;
 
-interface TypographyProps extends TextProps {}
+interface TypographyProps extends TextProps {
+  wordBreak?: 'word' | 'all';
+}
 
 interface StyledTextProps<T> extends TypographyProps {
   getStyle: StyleGetter<T>;
@@ -64,6 +66,7 @@ function StyledText<T extends StyleProp<TextStyle>>({
   children,
   style: passedStyle,
   onPress,
+  wordBreak = 'word',
   ...rest
 }: StyledTextProps<T>) {
   const { colorScheme } = useUserDefinedColorScheme();
@@ -71,9 +74,25 @@ function StyledText<T extends StyleProp<TextStyle>>({
   const originalStyle = useMemo(() => getStyle(styles), [getStyle, styles]);
   const composedStyle = StyleSheet.compose(originalStyle, passedStyle);
 
+  const map = useMemo(
+    () => (element: any, index: number) => {
+      const shouldBreak = wordBreak === 'all' && isArrayLike(element);
+      if (!shouldBreak) {
+        return element;
+      }
+      return (
+        <Fragment key={`${element}${index}`}>
+          {element.length > 1 ? Array.from(element).map(map) : element}
+          {'​'}
+        </Fragment>
+      );
+    },
+    [wordBreak],
+  );
+
   const text = (
     <Text style={composedStyle} {...rest}>
-      {children}
+      {map(children, 0)}
     </Text>
   );
   if (onPress) {
@@ -98,4 +117,8 @@ function createStyles(colorScheme: ColorSchemeName) {
       fontSize: fontSizeUnit,
     },
   });
+}
+
+function isArrayLike(value: any): value is ArrayLike<any> {
+  return Array.isArray(value) || typeof value === 'string';
 }

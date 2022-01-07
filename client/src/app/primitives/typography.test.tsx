@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react';
 import 'react-native';
-import { Text, TextStyle } from 'react-native';
+import { Text, TextStyle, View } from 'react-native';
 // Note: test renderer must be required after react-native.
 import renderer, { ReactTestInstance } from 'react-test-renderer';
 import { Body, Heading } from './typography';
@@ -50,6 +50,45 @@ test('style gets merged with default style', () => {
   expect(getMergedStyle(c).fontSize).toBe(getMergedStyle(a).fontSize);
   expect(getMergedStyle(d).fontSize).toBe(getMergedStyle(b).fontSize);
 });
+
+it("inserts zero-width space after all characters when wordBreak is 'all'", () => {
+  const result = renderer.create(
+    <Body wordBreak="all">
+      aaa {'bbb'} <View />
+      <Body wordBreak="all">ccc {'ddd'} eee</Body>
+    </Body>,
+  );
+
+  const json = result.toJSON();
+  const text = getText(json);
+
+  expect(text.replace(/​+/g, '​')).toBe(
+    'aaa bbb ccc ddd eee'
+      .split('')
+      .map(x => x + '​')
+      .join(''),
+  );
+});
+
+function getText(json: any) {
+  function reduce(acc: string, x: any): string {
+    if (x === undefined || x == null) {
+      return acc;
+    }
+    if (typeof x === 'string') {
+      return acc + x;
+    }
+    if (!isArrayLike(x)) {
+      return acc + reduce('', x.children);
+    }
+    return acc + Array.from(x).reduce(reduce, acc);
+  }
+  return reduce('', json);
+}
+
+function isArrayLike(value: any): value is ArrayLike<any> {
+  return Array.isArray(value) || typeof value === 'string';
+}
 
 function getMergedStyle(instance: ReactTestInstance): TextStyle {
   const style: TextStyle | TextStyle[] = instance.props.style;

@@ -5,20 +5,19 @@ import { Body, Heading } from '../../primitives/typography';
 import { fontSizeUnit } from '../../responsiveness';
 import { Data } from './data';
 
-export default function Item({ name, licenses, repository, licenseUrl }: Data) {
+export default function Item({ name, licenses, repository }: Data) {
   const onRepositoryPress = () => openUrl(repository);
-  const onLicenseUrlPress = () => openUrl(licenseUrl);
 
   return (
     <View style={styles.container}>
-      <Heading level={6} style={styles.name}>
+      <Heading wordBreak="all" level={6} style={styles.name}>
         {name} ({licenses})
       </Heading>
-      <Body style={styles.repository} onPress={onRepositoryPress}>
+      <Body
+        wordBreak="all"
+        style={styles.repository}
+        onPress={onRepositoryPress}>
         {repository}
-      </Body>
-      <Body style={styles.licenseUrl} onPress={onLicenseUrlPress}>
-        {licenseUrl}
       </Body>
     </View>
   );
