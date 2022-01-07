@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NativeModules, Platform, useColorScheme } from 'react-native';
+import { PagerViewProps } from 'react-native-pager-view';
 import ColorSchemeContext from './colorScheme/context';
 import LocaleContext from './i18n/context';
 import ContentPager from './pager/ContentPager';
@@ -18,13 +19,14 @@ export default function App() {
   const [colorScheme, setColorScheme] = useState(useColorScheme());
   const [locale, setLocale] = useState(defaultLocale);
 
-  const renderContentPager = () => (
+  const renderContentPager = (props: PagerViewProps) => (
     <ContentPager
       items={[
         <GoldPage key="1" />,
         <TimePage key="2" />,
         <OthersPage key="3" />,
       ]}
+      {...props}
     />
   );
   return (
