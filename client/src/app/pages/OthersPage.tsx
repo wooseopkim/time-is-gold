@@ -1,11 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
+import packageJson from '../../../package.json';
 import { useTranslator } from '../i18n/hooks';
+import openUrl from '../linking/openUrl';
 import ParamList from '../navigation/ParamList';
 import { Body, Heading } from '../primitives/typography';
 import { LICENSES_SCREEN } from '../screens/names';
 import PageContainer from './PageContainer';
+
+const sourceCode = packageJson.repository.url;
+const buyMeACoffee = 'https://www.buymeacoffee.com/wooseopkim';
 
 export default function OthersPage() {
   const navigation = useNavigation<NativeStackNavigationProp<ParamList>>();
@@ -22,8 +27,12 @@ export default function OthersPage() {
       <Body onPress={() => navigation.navigate(LICENSES_SCREEN, {})}>
         {translate('seeThirdPartyLicenses')}
       </Body>
-      <Body onPress={() => {}}>{translate('seeSourceCode')}</Body>
-      <Body onPress={() => {}}>{translate('buyMeACoffee')}</Body>
+      <Body onPress={() => openUrl(sourceCode)}>
+        {translate('seeSourceCode')}
+      </Body>
+      <Body onPress={() => openUrl(buyMeACoffee)}>
+        {translate('buyMeACoffee')}
+      </Body>
     </PageContainer>
   );
 }
