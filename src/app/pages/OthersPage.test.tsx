@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
+import 'react-native';
 import { Linking, Text } from 'react-native';
 import Stack from '../navigation/Stack';
 import { LICENSES_SCREEN, ScreenName } from '../screens/names';
