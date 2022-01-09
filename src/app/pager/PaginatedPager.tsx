@@ -7,10 +7,10 @@ import {
 import { Heading } from '../primitives/typography';
 
 interface Props {
-  render: (props: PagerViewProps) => ReactElement;
+  renderContent: (props: PagerViewProps) => ReactElement;
 }
 
-export default function PaginatedPager({ render }: Props) {
+export default function PaginatedPager({ renderContent: render }: Props) {
   const [{ offset, position }, setLastEvent] = useState({
     offset: 0,
     position: 0,

@@ -15,5 +15,5 @@ export default function GameScreen() {
   const render = (props: PagerViewProps) => (
     <ContentPager items={items} {...props} />
   );
-  return <PaginatedPager render={render} />;
+  return <PaginatedPager renderContent={render} />;
 }

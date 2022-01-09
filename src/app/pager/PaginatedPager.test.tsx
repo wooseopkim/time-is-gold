@@ -1,24 +1,25 @@
+import { render } from '@testing-library/react-native';
 import React from 'react';
 import 'react-native';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import {
   PagerViewOnPageScrollEvent,
   PagerViewProps,
 } from 'react-native-pager-view';
-import renderer from 'react-test-renderer';
+import { act } from 'react-test-renderer';
 import ColorSchemeContext from '../colorScheme/context';
 import PaginatedPager from './PaginatedPager';
 
 it('renders with given function', () => {
-  const render = () => <TestComponent />;
+  const renderContent = () => <TestComponent />;
 
-  const result = renderer.create(
+  const { container } = render(
     <ColorSchemeContext.Provider value={[null, () => {}]}>
-      <PaginatedPager render={render} />
+      <PaginatedPager renderContent={renderContent} />
     </ColorSchemeContext.Provider>,
   );
 
-  const found = result.root.findByType(TestComponent);
+  const found = container.findByType(TestComponent);
   expect(found).toBeTruthy();
 });
 
@@ -29,21 +30,22 @@ test.each([
 ])(
   'paginator display the closest page',
   (offset: number, position: number, page: number) => {
-    const render = (props: PagerViewProps) => <TestComponent {...props} />;
-    const result = renderer.create(
+    const renderContent = (props: PagerViewProps) => (
+      <TestComponent {...props} />
+    );
+    const { getByText, container } = render(
       <ColorSchemeContext.Provider value={[null, () => {}]}>
-        <PaginatedPager render={render} />
+        <PaginatedPager renderContent={renderContent} />
       </ColorSchemeContext.Provider>,
     );
 
-    renderer.act(() => {
-      result.root.findByType(TestComponent).props.onPageScroll({
+    act(() => {
+      container.findByType(TestComponent).props.onPageScroll({
         nativeEvent: { offset, position },
       } as PagerViewOnPageScrollEvent);
     });
 
-    const paginator = result.root.findByType(Text);
-    expect(paginator.props.children.join('')).toBe(`p.${page}`);
+    expect(getByText(`p.${page}`)).toBeTruthy();
   },
 );
 
