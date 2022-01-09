@@ -2,7 +2,13 @@ import { createContext } from 'react';
 import { defaultLocale } from './locales';
 import { LocaleCode } from './types';
 
-type Locale = [LocaleCode, (x: LocaleCode) => void];
+type Locale = {
+  value: LocaleCode;
+  onChange: (x: LocaleCode) => void;
+};
 
-const LocaleContext = createContext<Locale>([defaultLocale, () => {}]);
+const LocaleContext = createContext<Locale>({
+  value: defaultLocale,
+  onChange: () => {},
+});
 export default LocaleContext;

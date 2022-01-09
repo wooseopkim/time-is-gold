@@ -1,7 +1,13 @@
 import { createContext } from 'react';
 import { ColorSchemeName } from 'react-native';
 
-type ColorScheme = [ColorSchemeName, (x: ColorSchemeName) => void];
+type ColorScheme = {
+  value: ColorSchemeName;
+  onChange: (x: ColorSchemeName) => void;
+};
 
-const ColorSchemeContext = createContext<ColorScheme>([null, () => {}]);
+const ColorSchemeContext = createContext<ColorScheme>({
+  value: null,
+  onChange: () => {},
+});
 export default ColorSchemeContext;

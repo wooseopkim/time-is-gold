@@ -21,8 +21,9 @@ export default function App() {
   const translate = useTranslator();
 
   return (
-    <ColorSchemeContext.Provider value={[colorScheme, setColorScheme]}>
-      <LocaleContext.Provider value={[locale, setLocale]}>
+    <ColorSchemeContext.Provider
+      value={{ value: colorScheme, onChange: setColorScheme }}>
+      <LocaleContext.Provider value={{ value: locale, onChange: setLocale }}>
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen

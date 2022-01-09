@@ -4,8 +4,8 @@ import { locales } from './locales';
 import { Locale } from './types';
 
 export function useLocale() {
-  const [value, setValue] = useContext(LocaleContext);
-  return { locale: value, setLocale: setValue };
+  const { value, onChange } = useContext(LocaleContext);
+  return { locale: value, onLocaleChange: onChange };
 }
 
 export function useTranslator() {
