@@ -3,6 +3,7 @@ import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 import 'react-native';
 import { Linking, Text } from 'react-native';
+import { InterstitialAdManager } from 'react-native-fbads';
 import Stack from '../navigation/Stack';
 import { LICENSES_SCREEN, ScreenName } from '../screens/names';
 import OthersPage from './OthersPage';
@@ -38,3 +39,15 @@ it.each([['source code'], ['Buy Me a Coffee']])(
     expect(Linking.openURL).toHaveBeenCalled();
   },
 );
+
+it('displays ad on click', () => {
+  const { getByText } = render(
+    <NavigationContainer>
+      <OthersPage />
+    </NavigationContainer>,
+  );
+
+  fireEvent.press(getByText(/watch an ad/i));
+
+  expect(InterstitialAdManager.showAd).toHaveBeenCalled();
+});

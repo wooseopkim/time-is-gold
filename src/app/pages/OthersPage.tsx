@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
+import { InterstitialAdManager } from 'react-native-fbads';
 import packageJson from '../../../package.json';
 import { useTranslator } from '../i18n/hooks';
 import openUrl from '../linking/openUrl';
@@ -11,6 +12,7 @@ import PageContainer from './PageContainer';
 
 const sourceCode = packageJson.repository.url;
 const buyMeACoffee = 'https://www.buymeacoffee.com/wooseopkim';
+const placementId = '2133798973435812_2133812620101114';
 
 export default function OthersPage() {
   const navigation = useNavigation<NativeStackNavigationProp<ParamList>>();
@@ -23,7 +25,12 @@ export default function OthersPage() {
       <Body onPress={() => {}}>{translate('changeLanguage')}</Body>
       <Body onPress={() => {}}>{translate('changeBackground')}</Body>
       <Body onPress={() => {}}>{translate('restorePurchases')}</Body>
-      <Body onPress={() => {}}>{translate('watchAd')}</Body>
+      <Body
+        onPress={() =>
+          InterstitialAdManager.showAd(placementId).catch(console.log)
+        }>
+        {translate('watchAd')}
+      </Body>
       <Body onPress={() => navigation.navigate(LICENSES_SCREEN, {})}>
         {translate('seeThirdPartyLicenses')}
       </Body>
