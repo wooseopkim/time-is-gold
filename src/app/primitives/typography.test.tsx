@@ -1,7 +1,8 @@
+import { render } from '@testing-library/react-native';
 import React, { ComponentProps } from 'react';
 import 'react-native';
 import { Text, TextStyle, View } from 'react-native';
-import renderer, { ReactTestInstance } from 'react-test-renderer';
+import { ReactTestInstance } from 'react-test-renderer';
 import { Body, Heading } from './typography';
 
 test('Heading elements of lower levels have bigger font size', () => {
@@ -9,14 +10,14 @@ test('Heading elements of lower levels have bigger font size', () => {
     .fill(0)
     .map((_, i) => i + 1)
     .map(level =>
-      renderer.create(
+      render(
         <Heading level={level as ComponentProps<typeof Heading>['level']} />,
       ),
     );
 
   for (let i = 1; i < headings.length; i++) {
-    const x = headings[i - 1].root.findByType(Text);
-    const y = headings[i].root.findByType(Text);
+    const x = headings[i - 1].container.findByType(Text);
+    const y = headings[i].container.findByType(Text);
     expect(getMergedStyle(x).fontSize).toBeGreaterThan(
       getMergedStyle(y).fontSize as number,
     );
@@ -24,26 +25,26 @@ test('Heading elements of lower levels have bigger font size', () => {
 });
 
 test('Heading of level 6 and Body components have the same font size', () => {
-  const heading = renderer.create(<Heading level={6} />);
-  const body = renderer.create(<Body />);
+  const heading = render(<Heading level={6} />);
+  const body = render(<Body />);
 
-  const x = heading.root.findByType(Text);
-  const y = body.root.findByType(Text);
+  const x = heading.container.findByType(Text);
+  const y = body.container.findByType(Text);
   expect(getMergedStyle(x).fontSize).toBe(getMergedStyle(y).fontSize);
 });
 
 test('style gets merged with default style', () => {
   const style = { color: 'red' };
 
-  const emptyHeading = renderer.create(<Heading style={style} />);
-  const emptyBody = renderer.create(<Body style={style} />);
-  const styledHeading = renderer.create(<Heading style={style} />);
-  const styledBody = renderer.create(<Body style={style} />);
+  const emptyHeading = render(<Heading style={style} />);
+  const emptyBody = render(<Body style={style} />);
+  const styledHeading = render(<Heading style={style} />);
+  const styledBody = render(<Body style={style} />);
 
-  const a = styledHeading.root.findByType(Text);
-  const b = styledBody.root.findByType(Text);
-  const c = emptyHeading.root.findByType(Text);
-  const d = emptyBody.root.findByType(Text);
+  const a = styledHeading.container.findByType(Text);
+  const b = styledBody.container.findByType(Text);
+  const c = emptyHeading.container.findByType(Text);
+  const d = emptyBody.container.findByType(Text);
   expect(getMergedStyle(a).color).toBe('red');
   expect(getMergedStyle(b).color).toBe('red');
   expect(getMergedStyle(c).fontSize).toBe(getMergedStyle(a).fontSize);
@@ -51,15 +52,14 @@ test('style gets merged with default style', () => {
 });
 
 it("inserts zero-width space after all characters when wordBreak is 'all'", () => {
-  const result = renderer.create(
+  const { toJSON } = render(
     <Body wordBreak="all">
       aaa {'bbb'} <View />
       <Body wordBreak="all">ccc {'ddd'} eee</Body>
     </Body>,
   );
 
-  const json = result.toJSON();
-  const text = getText(json);
+  const text = getText(toJSON());
 
   expect(text.replace(/​+/g, '​')).toBe(
     'aaa bbb ccc ddd eee'
@@ -74,7 +74,7 @@ it.each([
   ['word' as ComponentProps<typeof Body>['wordBreak']],
 ])('has proper a11y label even when wordBreak="%s"', wordBreak => {
   // https://reactnative.dev/docs/react-node
-  const result = renderer.create(
+  const { getByA11yLabel } = render(
     <Body wordBreak={wordBreak}>
       aaa {1234} <View />
       <Body wordBreak={wordBreak}>
@@ -100,8 +100,7 @@ it.each([
     </Body>,
   );
 
-  const label = result.root.findByType(Text).props.accessibilityLabel;
-  expect(label).toBe('aaa 1234 bbbccc56stringwow');
+  expect(getByA11yLabel('aaa 1234 bbbccc56stringwow')).toBeTruthy();
 });
 
 function getText(json: any) {
