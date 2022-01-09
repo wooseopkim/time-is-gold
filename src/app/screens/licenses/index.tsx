@@ -9,7 +9,7 @@ export default function LicensesScreen() {
     <SafeAreaView>
       <FlatList
         data={data}
-        renderItem={props => <Item {...props.item} />}
+        renderItem={({ item }) => <Item data={item} />}
         keyExtractor={x => x.name}
       />
     </SafeAreaView>

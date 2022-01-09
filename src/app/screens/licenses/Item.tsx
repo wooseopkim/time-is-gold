@@ -5,7 +5,11 @@ import { Body, Heading } from '../../primitives/typography';
 import { fontSizeUnit } from '../../responsiveness';
 import { Data } from './data';
 
-export default function Item({ name, licenses, repository }: Data) {
+interface Props {
+  data: Data;
+}
+
+export default function Item({ data: { licenses, name, repository } }: Props) {
   const onRepositoryPress = () => openUrl(repository);
 
   return (
