@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react-native';
+import { act, render } from '@testing-library/react-native';
 import React from 'react';
 import 'react-native';
 import { View } from 'react-native';
@@ -6,7 +6,6 @@ import {
   PagerViewOnPageScrollEvent,
   PagerViewProps,
 } from 'react-native-pager-view';
-import { act } from 'react-test-renderer';
 import ColorSchemeContext from '../colorScheme/context';
 import PaginatedPager from './PaginatedPager';
 
