@@ -1,7 +1,6 @@
 import React, { ComponentProps } from 'react';
 import 'react-native';
 import { Text, TextStyle, View } from 'react-native';
-// Note: test renderer must be required after react-native.
 import renderer, { ReactTestInstance } from 'react-test-renderer';
 import { Body, Heading } from './typography';
 
