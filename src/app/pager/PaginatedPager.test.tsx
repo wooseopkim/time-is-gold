@@ -19,7 +19,7 @@ it('renders with given function', () => {
   );
 
   const found = result.root.findByType(TestComponent);
-  expect(found).not.toBeUndefined();
+  expect(found).toBeTruthy();
 });
 
 test.each([

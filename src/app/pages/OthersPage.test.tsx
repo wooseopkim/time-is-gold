@@ -20,7 +20,7 @@ it('provides link to third party screen', () => {
 
   fireEvent.press(getByText(/licenses/i));
 
-  expect(getByText(licensesScreenContent)).not.toBeNull();
+  expect(getByText(licensesScreenContent)).toBeTruthy();
 });
 
 it.each([['source code'], ['Buy Me a Coffee']])(
