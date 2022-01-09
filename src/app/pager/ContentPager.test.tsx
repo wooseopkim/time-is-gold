@@ -1,20 +1,26 @@
-import React from 'react';
+import { render } from '@testing-library/react-native';
+import React, { ReactNode } from 'react';
 import 'react-native';
 import { Text } from 'react-native';
-import renderer from 'react-test-renderer';
+import { ReactTestInstance } from 'react-test-renderer';
 import ContentPager from './ContentPager';
 
-it('renders given items', () => {
+it('renders given items with View wrappers', () => {
   const items = [
-    <Text key="foo">foo</Text>,
-    <Text key="bar">bar</Text>,
-    <Text key="baz">baz</Text>,
-    <Text key="qux">qux</Text>,
+    <Page key="foo">foo</Page>,
+    <Page key="bar">bar</Page>,
+    <Page key="baz">baz</Page>,
+    <Page key="qux">qux</Page>,
   ];
 
-  const result = renderer.create(<ContentPager items={items} />);
+  const { container } = render(<ContentPager items={items} />);
 
-  const actual = result.root.findAllByType(Text).map(x => x.props.children);
-  const expected = items.map(x => x.props.children);
-  expect(actual).toEqual(expected);
+  const wrapperTypes = container
+    .findAllByType(Page)
+    .map(x => (x as ReactTestInstance).parent?.type);
+  expect(wrapperTypes).toEqual(Array(items.length).fill('View'));
 });
+
+function Page({ children }: { children: ReactNode }) {
+  return <Text testID="page">{children}</Text>;
+}
