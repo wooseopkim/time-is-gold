@@ -26,8 +26,6 @@ it('provides link to third party screen', () => {
 it.each([['source code'], ['Buy Me a Coffee']])(
   'provides link to %s',
   title => {
-    const openUrl = jest.fn(() => Promise.resolve(''));
-    jest.spyOn(Linking, 'openURL').mockImplementation(openUrl);
     const { getByText } = render(
       <NavigationContainer>
         <OthersPage />
@@ -36,6 +34,6 @@ it.each([['source code'], ['Buy Me a Coffee']])(
 
     fireEvent.press(getByText(new RegExp(title, 'i')));
 
-    expect(openUrl).toHaveBeenCalled();
+    expect(Linking.openURL).toHaveBeenCalled();
   },
 );

@@ -70,6 +70,41 @@ it("inserts zero-width space after all characters when wordBreak is 'all'", () =
   );
 });
 
+it.each([
+  ['all' as ComponentProps<typeof Body>['wordBreak']],
+  ['word' as ComponentProps<typeof Body>['wordBreak']],
+])('has proper a11y label even when wordBreak="%s"', wordBreak => {
+  // https://reactnative.dev/docs/react-node
+  const result = renderer.create(
+    <Body wordBreak={wordBreak}>
+      aaa {1234} <View />
+      <Body wordBreak={wordBreak}>
+        bbb{true}
+        {null}
+        {undefined}
+        {'ccc'}5
+      </Body>
+      {[
+        true,
+        null,
+        undefined,
+        6,
+        [
+          <Text key="x">string</Text>,
+          <Body key="y" wordBreak={wordBreak}>
+            wow
+          </Body>,
+        ],
+      ].map((x, i) => {
+        return <Text key={i}>{x}</Text>;
+      })}
+    </Body>,
+  );
+
+  const label = result.root.findByType(Text).props.accessibilityLabel;
+  expect(label).toBe('aaa 1234 bbbccc56stringwow');
+});
+
 function getText(json: any) {
   function reduce(acc: string, x: any): string {
     if (x === undefined || x == null) {

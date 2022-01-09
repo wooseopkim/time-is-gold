@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from 'react';
+import React, { Fragment, ReactNode, useMemo } from 'react';
 import {
   ColorSchemeName,
   StyleProp,
@@ -74,25 +74,56 @@ function StyledText<T extends StyleProp<TextStyle>>({
   const originalStyle = useMemo(() => getStyle(styles), [getStyle, styles]);
   const composedStyle = StyleSheet.compose(originalStyle, passedStyle);
 
-  const map = useMemo(
-    () => (element: any, index: number) => {
-      const shouldBreak = wordBreak === 'all' && isArrayLike(element);
+  const reduceA11yLabel = useMemo(
+    () =>
+      (acc: string, x: ReactNode): string => {
+        if (x === undefined || x === null || typeof x === 'boolean') {
+          return acc;
+        }
+        if (typeof x !== 'object') {
+          return acc + x;
+        }
+        if (isArrayLike(x)) {
+          if (x.length <= 1) {
+            return acc + x[0];
+          }
+          return Array.from(x).reduce(reduceA11yLabel, acc);
+        }
+        if ('props' in x) {
+          return acc + reduceA11yLabel('', x.props.children);
+        }
+        return acc;
+      },
+    [],
+  );
+  const mapWordBreak = useMemo(
+    () => (child: ReactNode, index: number) => {
+      const shouldBreak = wordBreak === 'all' && isArrayLike(child);
       if (!shouldBreak) {
-        return element;
+        return child;
       }
+      const key = `${reduceA11yLabel('', child)}${index}`;
       return (
-        <Fragment key={`${element}${index}`}>
-          {element.length > 1 ? Array.from(element).map(map) : element}
+        <Fragment key={key}>
+          {child.length > 1 ? Array.from(child).map(mapWordBreak) : child}
           {'​'}
         </Fragment>
       );
     },
-    [wordBreak],
+    [wordBreak, reduceA11yLabel],
   );
 
+  const a11yLabel = useMemo(
+    () => reduceA11yLabel('', children),
+    [reduceA11yLabel, children],
+  );
+  const processedChildren = useMemo(
+    () => mapWordBreak(children, 0),
+    [mapWordBreak, children],
+  );
   const text = (
-    <Text style={composedStyle} {...rest}>
-      {map(children, 0)}
+    <Text style={composedStyle} accessibilityLabel={a11yLabel} {...rest}>
+      {processedChildren}
     </Text>
   );
   if (onPress) {
