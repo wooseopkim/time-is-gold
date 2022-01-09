@@ -28,6 +28,7 @@
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
     "@testing-library/react-hooks": "^7.0.2",
+    "@testing-library/react-native": "^9.0.0",
     "@types/jest": "^26.0.23",
     "@types/react-native": "^0.66.4",
     "@types/react-test-renderer": "^17.0.1",
@@ -36,6 +37,7 @@
     "babel-jest": "^26.6.3",
     "eslint": "^7.14.0",
     "jest": "^26.6.3",
+    "jest-native": "^3.0.0",
     "metro-react-native-babel-preset": "^0.66.2",
     "npm-license-crawler": "^0.2.1",
     "react-test-renderer": "17.0.2",
@@ -53,6 +55,10 @@
       "jsx",
       "json",
       "node"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/file.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/file.js"
+    }
   }
 }
