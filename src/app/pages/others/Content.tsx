@@ -1,45 +1,46 @@
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { View } from 'react-native';
-import { InterstitialAdManager } from 'react-native-fbads';
-import packageJson from '../../../../package.json';
 import { useTranslator } from '../../i18n/hooks';
-import openUrl from '../../linking/openUrl';
-import ParamList from '../../navigation/ParamList';
 import { Body, Heading } from '../../primitives/typography';
-import { LICENSES_SCREEN } from '../../screens/names';
 
-const sourceCode = packageJson.repository.url;
-const buyMeACoffee = 'https://www.buymeacoffee.com/wooseopkim';
-const placementId = '2133798973435812_2133812620101114';
+interface Props {
+  onAchievementsClick: () => void;
+  onLanguageClick: () => void;
+  onBackgroundClick: () => void;
+  onRestorePurchasesClick: () => void;
+  onWatchAdClick: () => void;
+  onLicensesClick: () => void;
+  onSourceCodeClick: () => void;
+  onBuyMeACoffeeClick: () => void;
+}
 
-export default function Content() {
-  const navigation = useNavigation<NativeStackNavigationProp<ParamList>>();
+export default function Content({
+  onAchievementsClick,
+  onLanguageClick,
+  onBackgroundClick,
+  onRestorePurchasesClick,
+  onWatchAdClick,
+  onLicensesClick,
+  onSourceCodeClick,
+  onBuyMeACoffeeClick,
+}: Props) {
   const translate = useTranslator();
 
   return (
     <View>
       <Heading>{translate('enjoyGame')}</Heading>
-      <Body onPress={() => {}}>{translate('seeAchievements')}</Body>
-      <Body onPress={() => {}}>{translate('changeLanguage')}</Body>
-      <Body onPress={() => {}}>{translate('changeBackground')}</Body>
-      <Body onPress={() => {}}>{translate('restorePurchases')}</Body>
-      <Body
-        onPress={() =>
-          InterstitialAdManager.showAd(placementId).catch(console.log)
-        }>
-        {translate('watchAd')}
+      <Body onPress={onAchievementsClick}>{translate('seeAchievements')}</Body>
+      <Body onPress={onLanguageClick}>{translate('changeLanguage')}</Body>
+      <Body onPress={onBackgroundClick}>{translate('changeBackground')}</Body>
+      <Body onPress={onRestorePurchasesClick}>
+        {translate('restorePurchases')}
       </Body>
-      <Body onPress={() => navigation.navigate(LICENSES_SCREEN, {})}>
+      <Body onPress={onWatchAdClick}>{translate('watchAd')}</Body>
+      <Body onPress={onLicensesClick}>
         {translate('seeThirdPartyLicenses')}
       </Body>
-      <Body onPress={() => openUrl(sourceCode)}>
-        {translate('seeSourceCode')}
-      </Body>
-      <Body onPress={() => openUrl(buyMeACoffee)}>
-        {translate('buyMeACoffee')}
-      </Body>
+      <Body onPress={onSourceCodeClick}>{translate('seeSourceCode')}</Body>
+      <Body onPress={onBuyMeACoffeeClick}>{translate('buyMeACoffee')}</Body>
     </View>
   );
 }
