@@ -1,4 +1,4 @@
-package kim.wes.timeisgold;
+package kim.wooseop.timeisgold;
 
 import com.facebook.react.ReactActivity;
 
