@@ -6,7 +6,6 @@ import { Body, Heading } from '../../primitives/typography';
 interface Props {
   onAchievementsClick: () => void;
   onLanguageClick: () => void;
-  onBackgroundClick: () => void;
   onRestorePurchasesClick: () => void;
   onWatchAdClick: () => void;
   onLicensesClick: () => void;
@@ -17,7 +16,6 @@ interface Props {
 export default function Content({
   onAchievementsClick,
   onLanguageClick,
-  onBackgroundClick,
   onRestorePurchasesClick,
   onWatchAdClick,
   onLicensesClick,
@@ -31,7 +29,6 @@ export default function Content({
       <Heading>{translate('enjoyGame')}</Heading>
       <Body onPress={onAchievementsClick}>{translate('seeAchievements')}</Body>
       <Body onPress={onLanguageClick}>{translate('changeLanguage')}</Body>
-      <Body onPress={onBackgroundClick}>{translate('changeBackground')}</Body>
       <Body onPress={onRestorePurchasesClick}>
         {translate('restorePurchases')}
       </Body>

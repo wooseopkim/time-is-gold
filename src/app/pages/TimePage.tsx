@@ -30,7 +30,6 @@ export default function TimePage() {
       <Body onPress={() => {}}>
         {translate('buyGold')({ amount: 50000, price: 100, currency: '$' })}
       </Body>
-      <Body onPress={() => {}}>{translate('buyAnimeGirl')({ gold: 100 })}</Body>
     </PageContainer>
   );
 }

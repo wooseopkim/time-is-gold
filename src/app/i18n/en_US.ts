@@ -55,11 +55,8 @@ const en_US: Locale = {
     currency: string;
   }): string =>
     `Buy ${format(amount)} gold (${formatCurrency(price, currency)}).`,
-  buyAnimeGirl: ({ gold }: { gold: number }): string =>
-    `Buy an anime girl (${gold} gold).`,
   seeAchievements: 'See achievements.',
   changeLanguage: 'Change language.',
-  changeBackground: 'Change background.',
   restorePurchases: 'Restore purchases.',
   watchAd: 'Watch an ad for no reason.',
   seeThirdPartyLicenses: 'See third-party licenses.',

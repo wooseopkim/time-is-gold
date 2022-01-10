@@ -36,10 +36,8 @@ export type Locale = {
     price: number;
     currency: string;
   }) => string;
-  buyAnimeGirl: (args: { gold: number }) => string;
   seeAchievements: string;
   changeLanguage: string;
-  changeBackground: string;
   restorePurchases: string;
   watchAd: string;
   seeThirdPartyLicenses: string;

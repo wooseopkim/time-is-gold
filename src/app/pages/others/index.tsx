@@ -23,7 +23,6 @@ export default function OthersPage() {
       <Content
         onAchievementsClick={() => {}}
         onLanguageClick={() => setLanguageModalVisible(true)}
-        onBackgroundClick={() => {}}
         onRestorePurchasesClick={() => {}}
         onWatchAdClick={() =>
           InterstitialAdManager.showAd(placementId).catch(console.log)

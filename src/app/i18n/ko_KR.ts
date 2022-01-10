@@ -54,11 +54,8 @@ const ko_KR: Locale = {
     currency: string;
   }): string =>
     `${format(amount)} 골드를 구매합니다. (${formatCurrency(price, currency)})`,
-  buyAnimeGirl: ({ gold }: { gold: number }): string =>
-    `카와이한 소녀 그림을 구매합니다. (${gold} 골드)`,
   seeAchievements: '업적을 봅니다.',
   changeLanguage: '언어를 바꿉니다.',
-  changeBackground: '배경을 바꿉니다.',
   restorePurchases: '구매 사항을 복구합니다.',
   watchAd: '심심하니까 광고를 봅니다.',
   seeThirdPartyLicenses: '서드파티 라이선스를 봅니다.',
