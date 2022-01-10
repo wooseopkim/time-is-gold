@@ -21,7 +21,7 @@
     "@react-navigation/native-stack": "^6.2.5",
     "react": "17.0.2",
     "react-native": "0.66.4",
-    "react-native-fbads": "github:wooseopkim/react-native-fbads#b0463193292a53ca8a4cb5f3c06589fe3c96a7ce",
+    "react-native-fbads": "https://github.com/wooseopkim/react-native-fbads",
     "react-native-pager-view": "^6.0.0-rc.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.1"
