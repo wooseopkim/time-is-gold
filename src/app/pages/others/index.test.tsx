@@ -4,9 +4,9 @@ import React from 'react';
 import 'react-native';
 import { Linking, Text } from 'react-native';
 import { InterstitialAdManager } from 'react-native-fbads';
-import Stack from '../navigation/Stack';
-import { LICENSES_SCREEN, ScreenName } from '../screens/names';
-import OthersPage from './OthersPage';
+import OthersPage from '.';
+import Stack from '../../navigation/Stack';
+import { LICENSES_SCREEN, ScreenName } from '../../screens/names';
 
 it('provides link to third party screen', () => {
   const licensesScreenContent = 'hello world';

@@ -3,7 +3,7 @@ import { PagerViewProps } from 'react-native-pager-view';
 import ContentPager from '../pager/ContentPager';
 import PaginatedPager from '../pager/PaginatedPager';
 import GoldPage from '../pages/GoldPage';
-import OthersPage from '../pages/OthersPage';
+import OthersPage from '../pages/others';
 import TimePage from '../pages/TimePage';
 
 export default function GameScreen() {
