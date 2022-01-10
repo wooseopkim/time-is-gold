@@ -64,3 +64,6 @@ licenses.json
 
 # coverage
 coverage/
+
+# keystore config
+android/app/keystore.config

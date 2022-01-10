@@ -12,7 +12,9 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "postinstall": "npm-license-crawler -onlyDirectDependencies -json ./licenses.json"
+    "postinstall": "npm-license-crawler -onlyDirectDependencies -json ./licenses.json",
+    "bundle:android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle",
+    "build:android": "cd ./android && ./gradlew bundleRelease"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.6",
