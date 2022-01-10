@@ -67,3 +67,6 @@ coverage/
 
 # keystore config
 android/app/keystore.config
+
+# generated android bundle
+android/app/src/main/assets/**/*.bundle
