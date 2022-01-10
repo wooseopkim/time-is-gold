@@ -6,6 +6,7 @@ export type PlayerGroup = 'all' | Platform;
 export type Locale = {
   meta: {
     name: string;
+    readableName: string;
   };
   timeIsGold: string;
   goldIsTime: string;

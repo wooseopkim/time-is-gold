@@ -4,6 +4,7 @@ import { Locale, PlayerGroup } from './types';
 const ko_KR: Locale = {
   meta: {
     name: 'ko-KR',
+    readableName: '한국어',
   },
   timeIsGold: '이곳에서, 시간은 금입니다.',
   goldIsTime: '그리고, 금은 시간입니다.',

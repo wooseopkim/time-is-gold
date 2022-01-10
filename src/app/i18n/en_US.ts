@@ -4,6 +4,7 @@ import { Locale, PlayerGroup } from './types';
 const en_US: Locale = {
   meta: {
     name: 'en-US',
+    readableName: 'English',
   },
   timeIsGold: 'Here, time is gold...',
   goldIsTime: 'And, gold is time.',
