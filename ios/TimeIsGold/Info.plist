@@ -55,6 +55,8 @@
 	<array>
 		<string>OldStandardTT-Regular.ttf</string>
 		<string>OldStandardTT-Bold.ttf</string>
+		<string>NanumMyeongjo-Bold.ttf</string>
+		<string>NanumMyeongjo-Regular.ttf</string>
 	</array>
 </dict>
 </plist>

@@ -28,7 +28,10 @@ export default function LanguageModal(props: ModalProps) {
         onResponderRelease={props?.onRequestClose}>
         <View style={styles.content}>
           {Object.entries(locales).map(([code, locale]) => (
-            <Body key={code} onPress={() => onSelect(code as LocaleCode)}>
+            <Body
+              key={code}
+              onPress={() => onSelect(code as LocaleCode)}
+              style={{ fontFamily: locale.meta.fontFamily.regular }}>
               {locale.meta.readableName}
             </Body>
           ))}

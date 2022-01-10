@@ -16,6 +16,8 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		24006BB086C945189BEC511A /* OldStandardTT-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 077B2E82A5CD416AAC885B3E /* OldStandardTT-Regular.ttf */; };
 		E6E48DB903754FE0B31C2111 /* OldStandardTT-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3349DFCC2C9F42AC9526F629 /* OldStandardTT-Bold.ttf */; };
+		DC5BED504B974B5B9E4C3454 /* NanumMyeongjo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15D8B17334AB468A9C536BB3 /* NanumMyeongjo-Bold.ttf */; };
+		F7A77EEA813D442AA8141E55 /* NanumMyeongjo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 529C4EC2792A4D929A59BE7E /* NanumMyeongjo-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,8 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		077B2E82A5CD416AAC885B3E /* OldStandardTT-Regular.ttf */ = {isa = PBXFileReference; name = "OldStandardTT-Regular.ttf"; path = "../assets/fonts/OldStandardTT-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		3349DFCC2C9F42AC9526F629 /* OldStandardTT-Bold.ttf */ = {isa = PBXFileReference; name = "OldStandardTT-Bold.ttf"; path = "../assets/fonts/OldStandardTT-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		15D8B17334AB468A9C536BB3 /* NanumMyeongjo-Bold.ttf */ = {isa = PBXFileReference; name = "NanumMyeongjo-Bold.ttf"; path = "../assets/fonts/NanumMyeongjo-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		529C4EC2792A4D929A59BE7E /* NanumMyeongjo-Regular.ttf */ = {isa = PBXFileReference; name = "NanumMyeongjo-Regular.ttf"; path = "../assets/fonts/NanumMyeongjo-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +163,8 @@
 			children = (
 				077B2E82A5CD416AAC885B3E /* OldStandardTT-Regular.ttf */,
 				3349DFCC2C9F42AC9526F629 /* OldStandardTT-Bold.ttf */,
+				15D8B17334AB468A9C536BB3 /* NanumMyeongjo-Bold.ttf */,
+				529C4EC2792A4D929A59BE7E /* NanumMyeongjo-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -262,6 +268,8 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				24006BB086C945189BEC511A /* OldStandardTT-Regular.ttf in Resources */,
 				E6E48DB903754FE0B31C2111 /* OldStandardTT-Bold.ttf in Resources */,
+				DC5BED504B974B5B9E4C3454 /* NanumMyeongjo-Bold.ttf in Resources */,
+				F7A77EEA813D442AA8141E55 /* NanumMyeongjo-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

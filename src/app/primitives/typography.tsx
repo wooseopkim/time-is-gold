@@ -9,6 +9,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import useUserDefinedColorScheme from '../colorScheme/hooks';
+import { useLocale } from '../i18n/hooks';
+import { locales } from '../i18n/locales';
+import { LocaleCode } from '../i18n/types';
 import { fontSizeUnit } from '../responsiveness';
 
 type StyleGetter<T> = (x: ReturnType<typeof createStyles>) => T;
@@ -70,7 +73,11 @@ function StyledText<T extends StyleProp<TextStyle>>({
   ...rest
 }: StyledTextProps<T>) {
   const { colorScheme } = useUserDefinedColorScheme();
-  const styles = useMemo(() => createStyles(colorScheme), [colorScheme]);
+  const { locale } = useLocale();
+  const styles = useMemo(
+    () => createStyles(colorScheme, locale),
+    [colorScheme, locale],
+  );
   const originalStyle = useMemo(() => getStyle(styles), [getStyle, styles]);
   const composedStyle = StyleSheet.compose(originalStyle, passedStyle);
 
@@ -132,7 +139,7 @@ function StyledText<T extends StyleProp<TextStyle>>({
   return text;
 }
 
-function createStyles(colorScheme: ColorSchemeName) {
+function createStyles(colorScheme: ColorSchemeName, locale: LocaleCode) {
   const isDarkMode = colorScheme === 'dark';
   const text = {
     color: isDarkMode ? 'white' : 'black',
@@ -140,11 +147,11 @@ function createStyles(colorScheme: ColorSchemeName) {
   return StyleSheet.create({
     heading: {
       ...text,
-      fontFamily: 'OldStandardTT-Bold',
+      fontFamily: locales[locale].meta.fontFamily.bold,
     },
     body: {
       ...text,
-      fontFamily: 'OldStandardTT-Regular',
+      fontFamily: locales[locale].meta.fontFamily.regular,
       fontSize: fontSizeUnit,
     },
   });

@@ -7,6 +7,10 @@ export type Locale = {
   meta: {
     name: string;
     readableName: string;
+    fontFamily: {
+      regular: string;
+      bold: string;
+    };
   };
   timeIsGold: string;
   goldIsTime: string;

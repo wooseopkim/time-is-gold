@@ -3,6 +3,8 @@ import React, { ComponentProps } from 'react';
 import 'react-native';
 import { Text, TextStyle, View } from 'react-native';
 import { ReactTestInstance } from 'react-test-renderer';
+import LocaleContext from '../i18n/context';
+import { LocaleCode } from '../i18n/types';
 import { Body, Heading } from './typography';
 
 test('Heading elements of lower levels have bigger font size', () => {
@@ -101,6 +103,20 @@ it.each([
   );
 
   expect(getByA11yLabel('aaa 1234 bbbccc56stringwow')).toBeTruthy();
+});
+
+it.each([
+  ['ko_KR' as LocaleCode, 'NanumMyeongjo'],
+  ['en_US' as LocaleCode, 'OldStandardTT'],
+])("renders with selected language's font", (code, fontFamily) => {
+  const { container } = render(
+    <LocaleContext.Provider value={{ value: code, onChange: () => {} }}>
+      <Body />
+    </LocaleContext.Provider>,
+  );
+
+  const actual = container.findByType(Text).props.style.fontFamily;
+  expect(actual).toMatch(fontFamily);
 });
 
 function getText(json: any) {

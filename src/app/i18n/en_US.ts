@@ -5,6 +5,10 @@ const en_US: Locale = {
   meta: {
     name: 'en-US',
     readableName: 'English',
+    fontFamily: {
+      regular: 'OldStandardTT-Regular',
+      bold: 'OldStandardTT-Bold',
+    },
   },
   timeIsGold: 'Here, time is gold...',
   goldIsTime: 'And, gold is time.',
