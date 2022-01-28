@@ -11,11 +11,15 @@ import { pixelUnit } from '../../responsiveness';
 export default function LanguageModal(props: ModalProps) {
   const { onLocaleChange } = useLocale();
   const { colorScheme } = useUserDefinedColorScheme();
+  const { onRequestClose } = props;
 
-  const onSelect = useCallback((code: LocaleCode) => {
-    onLocaleChange(code);
-    props.onRequestClose?.();
-  }, []);
+  const onSelect = useCallback(
+    (code: LocaleCode) => {
+      onLocaleChange(code);
+      onRequestClose?.();
+    },
+    [onLocaleChange, onRequestClose],
+  );
   const styles = useMemo(
     () => createStyles(colorScheme === 'dark'),
     [colorScheme],
