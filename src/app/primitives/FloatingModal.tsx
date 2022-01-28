@@ -21,9 +21,7 @@ export default function FloatingModal({
   return (
     <Modal {...rest}>
       <TouchableWithoutFeedback onPress={rest?.onRequestClose}>
-        <View style={composedStyle} onResponderRelease={console.log}>
-          {children}
-        </View>
+        <View style={composedStyle}>{children}</View>
       </TouchableWithoutFeedback>
     </Modal>
   );
