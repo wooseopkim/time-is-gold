@@ -22,6 +22,7 @@
     "react": "17.0.2",
     "react-native": "0.66.4",
     "react-native-fbads": "https://github.com/wooseopkim/react-native-fbads",
+    "react-native-iap": "^7.5.5",
     "react-native-pager-view": "^6.0.0-rc.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.1"

@@ -32,29 +32,6 @@ const en_US: Locale = {
   all: 'all',
   ios: 'iOS',
   android: 'Android',
-  buyMultiplier: ({
-    ratio,
-    price,
-    currency,
-  }: {
-    ratio: number;
-    price: number;
-    currency: string;
-  }): string =>
-    `Buy one-time ${ratio}x income multiplier (${formatCurrency(
-      price,
-      currency,
-    )}).`,
-  buyGold: ({
-    amount,
-    price,
-    currency,
-  }: {
-    amount: number;
-    price: number;
-    currency: string;
-  }): string =>
-    `Buy ${format(amount)} gold (${formatCurrency(price, currency)}).`,
   seeAchievements: 'See achievements.',
   changeLanguage: 'Change language.',
   restorePurchases: 'Restore purchases.',
@@ -66,7 +43,3 @@ const en_US: Locale = {
 };
 
 export default en_US;
-
-function formatCurrency(amount: number, currency: string): string {
-  return `${currency}${format(amount, en_US.meta.name)}`;
-}

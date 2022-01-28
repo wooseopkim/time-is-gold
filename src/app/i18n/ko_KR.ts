@@ -31,29 +31,6 @@ const ko_KR: Locale = {
   all: '모든',
   ios: 'iOS',
   android: 'Android',
-  buyMultiplier: ({
-    ratio,
-    price,
-    currency,
-  }: {
-    ratio: number;
-    price: number;
-    currency: string;
-  }): string =>
-    `${ratio}배 골드 수입 증폭기를 구매합니다. (${formatCurrency(
-      price,
-      currency,
-    )})`,
-  buyGold: ({
-    amount,
-    price,
-    currency,
-  }: {
-    amount: number;
-    price: number;
-    currency: string;
-  }): string =>
-    `${format(amount)} 골드를 구매합니다. (${formatCurrency(price, currency)})`,
   seeAchievements: '업적을 봅니다.',
   changeLanguage: '언어를 바꿉니다.',
   restorePurchases: '구매 사항을 복구합니다.',
@@ -65,7 +42,3 @@ const ko_KR: Locale = {
 };
 
 export default ko_KR;
-
-function formatCurrency(amount: number, currency: string): string {
-  return `${currency}${format(amount, ko_KR.meta.name)}`;
-}

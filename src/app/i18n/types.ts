@@ -26,16 +26,6 @@ export type Locale = {
   all: string;
   ios: string;
   android: string;
-  buyMultiplier: (args: {
-    ratio: number;
-    price: number;
-    currency: string;
-  }) => string;
-  buyGold: (args: {
-    amount: number;
-    price: number;
-    currency: string;
-  }) => string;
   seeAchievements: string;
   changeLanguage: string;
   restorePurchases: string;

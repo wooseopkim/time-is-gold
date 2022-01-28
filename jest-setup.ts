@@ -10,4 +10,13 @@ jest.mock('react-native-fbads', () => ({
   },
 }));
 
+jest.mock('react-native-iap', () => ({
+  initConnection: jest.fn(() => Promise.resolve(true)),
+  endConnection: jest.fn(() => Promise.resolve()),
+  getProducts: jest.fn(() => Promise.resolve([])),
+  requestPurchase: jest.fn(() => Promise.resolve({})),
+  clearTransactionIOS: jest.fn(),
+  flushFailedPurchasesCachedAsPendingAndroid: jest.fn(),
+}));
+
 export {};
