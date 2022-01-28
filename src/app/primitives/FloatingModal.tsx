@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   View,
+  ViewStyle,
 } from 'react-native';
 
 export default function FloatingModal({
@@ -12,10 +13,15 @@ export default function FloatingModal({
   style: passedStyle,
   ...rest
 }: ModalProps) {
+  const composedStyle = StyleSheet.compose<ViewStyle>(
+    styles.dimmer,
+    passedStyle,
+  );
+
   return (
     <Modal {...rest}>
       <TouchableWithoutFeedback onPress={rest?.onRequestClose}>
-        <View style={styles.dimmer} onResponderRelease={console.log}>
+        <View style={composedStyle} onResponderRelease={console.log}>
           {children}
         </View>
       </TouchableWithoutFeedback>
