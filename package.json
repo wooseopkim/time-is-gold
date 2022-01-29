@@ -14,7 +14,8 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "postinstall": "npm-license-crawler -onlyDirectDependencies -json ./licenses.json",
     "bundle:android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle",
-    "build:android": "cd ./android && ./gradlew bundleRelease"
+    "build:android": "cd ./android && ./gradlew bundleRelease",
+    "deploy:firebase": "firebase deploy --only firestore"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.6",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
+    "@firebase/rules-unit-testing": "^2.0.2",
     "@react-native-community/eslint-config": "^2.0.0",
     "@testing-library/react-hooks": "^7.0.2",
     "@testing-library/react-native": "^9.0.0",
@@ -40,6 +42,8 @@
     "@typescript-eslint/parser": "^5.7.0",
     "babel-jest": "^26.6.3",
     "eslint": "^7.14.0",
+    "firebase": "^9.6.5",
+    "firebase-tools": "^10.1.2",
     "jest": "^26.6.3",
     "jest-native": "^3.0.0",
     "metro-react-native-babel-preset": "^0.66.2",

@@ -1,0 +1,31 @@
+rules_version = '2';
+
+service cloud.firestore {
+
+  match /databases/{database}/documents {
+
+    match /users/{userId} {
+
+      function authorized() {
+        return request.auth != null && request.auth.uid == userId;
+      }
+
+      allow read, write: if authorized();
+
+      match /private/payout {
+
+        function legalTimestamp() {
+          return request.resource.data.timestamp == request.time;
+        }
+
+        function oldEnough() {
+          return request.time - resource.data.timestamp >= duration.value(5, 's');
+        }
+
+        allow create: if authorized() && legalTimestamp();
+        allow update: if authorized() && legalTimestamp() && oldEnough();
+        allow delete: if false;
+      }
+    }
+  }
+}

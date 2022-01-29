@@ -70,3 +70,7 @@ android/app/keystore.config
 
 # generated android bundle
 android/app/src/main/assets/**/*.bundle
+
+# firebase
+ui-debug.log
+firestore-debug.log
