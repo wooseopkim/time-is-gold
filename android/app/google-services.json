@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "119675303036",
+    "project_id": "time-is-gold-5492b",
+    "storage_bucket": "time-is-gold-5492b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119675303036:android:836ded74ec4f5693f1c5f9",
+        "android_client_info": {
+          "package_name": "kim.wooseop.timeisgold"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "119675303036-rgccmm4dhkv2joehi5hk94ilj7rbbu73.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kim.wooseop.timeisgold",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "119675303036-ats6me6hcfj8d134hn1ujjabjjphgm7j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCw9GWkQLuIHrZRUGvwI_Ho-P4a0gkA2I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "119675303036-ats6me6hcfj8d134hn1ujjabjjphgm7j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

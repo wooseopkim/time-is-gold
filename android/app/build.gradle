@@ -83,6 +83,9 @@ project.ext.react = [
 
 apply from: "../../node_modules/react-native/react.gradle"
 
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -203,6 +206,9 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     implementation project(':react-native-pager-view')
+
+    implementation platform('com.google.firebase:firebase-bom:29.0.4')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
