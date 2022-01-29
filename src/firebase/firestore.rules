@@ -6,25 +6,50 @@ service cloud.firestore {
 
     match /users/{userId} {
 
-      function authorized() {
+      function themselves() {
         return request.auth != null && request.auth.uid == userId;
       }
 
-      allow read, write: if authorized();
+      function admin() {
+        return request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.admin;
+      }
+
+      allow read, write: if themselves();
+
+      match /private/status {
+
+        allow read: if themselves();
+        allow write: if admin();
+      }
 
       match /private/payout {
+
+        function payoutPerSecond() {
+          let exists = exists(/databases/$(database)/documents/users/$(userId)/private/status);
+          let status = get(/databases/$(database)/documents/users/$(userId)/private/status);
+          return exists && "payoutPerSecond" in status.data ? status.data.payoutPerSecond : 1000;
+        }
+
+        function multiplier() {
+          let exists = exists(/databases/$(database)/documents/users/$(userId)/private/status);
+          let status = get(/databases/$(database)/documents/users/$(userId)/private/status);
+          return exists && "multiplier" in status.data ? status.data.multiplier : 1;
+        }
 
         function legalTimestamp() {
           return request.resource.data.timestamp == request.time;
         }
 
-        function oldEnough() {
-          return request.time - resource.data.timestamp >= duration.value(5, 's');
+        function legalAmount() {
+          return request.resource.data.amount > 0 &&
+            request.resource.data.amount <=
+            payoutPerSecond() *
+            multiplier() *
+            (request.time.time().seconds() - resource.data.timestamp.time().seconds());
         }
 
-        allow create: if authorized() && legalTimestamp();
-        allow update: if authorized() && legalTimestamp() && oldEnough();
-        allow delete: if false;
+        allow create: if themselves() && legalTimestamp();
+        allow update: if themselves() && legalTimestamp() && legalAmount();
       }
     }
   }

@@ -9,7 +9,14 @@ import {
 } from '@firebase/rules-unit-testing';
 import client from 'firebase-tools';
 import * as controller from 'firebase-tools/lib/emulator/controller';
-import { doc, serverTimestamp, setDoc, Timestamp } from 'firebase/firestore';
+import {
+  doc,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+  Timestamp,
+  updateDoc,
+} from 'firebase/firestore';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import config from '../../firebase.json';
@@ -36,103 +43,191 @@ afterAll(async () => {
   await controller.cleanShutdown();
 });
 
-afterEach(async () => {
-  await testEnv?.clearFirestore();
-});
-
 describe('firestore rules', () => {
-  describe('users', () => {
+  beforeEach(async () => {
+    const ctx = testEnv.authenticatedContext('alice');
+    await setDoc(doc(ctx.firestore(), 'users', 'alice'), {});
+  });
+
+  afterEach(async () => {
+    await testEnv?.clearFirestore();
+  });
+
+  describe('status', () => {
+    beforeEach(async () => {
+      const ctx = testEnv.authenticatedContext('admin');
+      await setDoc(doc(ctx.firestore(), 'users', 'admin'), { admin: true });
+    });
+
+    it('should reject read if not authenticated', async () => {
+      const ctx = testEnv.unauthenticatedContext();
+      const ref = doc(ctx.firestore(), 'users', 'alice', 'private', 'status');
+
+      const p = getDoc(ref);
+
+      await assertFails(p);
+    });
+
+    it('should reject read if authentiacted but not as the user', async () => {
+      const ctx = testEnv.authenticatedContext('bob');
+      const ref = doc(ctx.firestore(), 'users', 'alice', 'private', 'status');
+
+      const p = getDoc(ref);
+
+      await assertFails(p);
+    });
+
+    it('should allow read if authenticated as the user', async () => {
+      const ctx = testEnv.authenticatedContext('alice');
+      const ref = doc(ctx.firestore(), 'users', 'alice', 'private', 'status');
+
+      const p = getDoc(ref);
+
+      await assertSucceeds(p);
+    });
+
+    it('should reject write if not authenticated', async () => {
+      const ctx = testEnv.unauthenticatedContext();
+      const ref = doc(ctx.firestore(), 'users', 'alice', 'private', 'status');
+
+      const p = setDoc(ref, {});
+
+      await assertFails(p);
+    });
+
+    it('should reject write even if authenticated as the user', async () => {
+      const ctx = testEnv.authenticatedContext('alice');
+      const ref = doc(ctx.firestore(), 'users', 'alice', 'private', 'status');
+
+      const p = setDoc(ref, {});
+
+      await assertFails(p);
+    });
+
+    it('should allow write if authenticated as admin', async () => {
+      const ctx = testEnv.authenticatedContext('admin');
+      const ref = doc(ctx.firestore(), 'users', 'alice', 'private', 'status');
+
+      const p = setDoc(ref, {});
+
+      await assertSucceeds(p);
+    });
+  });
+
+  describe('payouts', () => {
     it('should reject payout creation if not authenticated', async () => {
       const ctx = testEnv.unauthenticatedContext();
-      const ref = doc(ctx.firestore(), 'users', '1', 'private', 'payout');
+      const ref = doc(ctx.firestore(), 'users', 'alice', 'private', 'payout');
 
-      const p = setDoc(ref, { timestamp: serverTimestamp() });
+      const p = setDoc(ref, { timestamp: serverTimestamp(), amount: 1 });
 
       await assertFails(p);
     });
 
     it('should reject payout creation if authenticated but not as the user', async () => {
-      const ctx = testEnv.authenticatedContext('1');
-      const ref = doc(ctx.firestore(), 'users', '2', 'private', 'payout');
+      const ctx = testEnv.authenticatedContext('bob');
+      const ref = doc(ctx.firestore(), 'users', 'alice', 'private', 'payout');
 
-      const p = setDoc(ref, { timestamp: serverTimestamp() });
-
-      await assertFails(p);
-    });
-
-    it('should reject payout creation if timestamp is illegal', async () => {
-      const ctx = testEnv.authenticatedContext('3');
-      const ref = doc(ctx.firestore(), 'users', '3', 'private', 'payout');
-
-      const p = setDoc(ref, { timestamp: Timestamp.now() });
+      const p = setDoc(ref, { timestamp: serverTimestamp(), amount: 1 });
 
       await assertFails(p);
     });
 
-    it('should pass payout creation if authenticated as the user', async () => {
-      const ctx = testEnv.authenticatedContext('3');
-      const ref = doc(ctx.firestore(), 'users', '3', 'private', 'payout');
+    it('should reject payout creation if requesting more than legal', async () => {
+      const ctx = testEnv.authenticatedContext('alice');
+      const ref = doc(ctx.firestore(), 'users', 'alice', 'private', 'payout');
 
-      const p = setDoc(ref, { timestamp: serverTimestamp() });
+      const p = setDoc(ref, { timestamp: Timestamp.now(), amount: 1 });
+
+      await assertFails(p);
+    });
+
+    it('should pass payout creation if everything is ok', async () => {
+      const ctx = testEnv.authenticatedContext('alice');
+      const ref = doc(ctx.firestore(), 'users', 'alice', 'private', 'payout');
+
+      const p = setDoc(ref, { timestamp: serverTimestamp(), amount: 1 });
 
       await assertSucceeds(p);
     });
 
     it('should reject payout update if not authenticated', async () => {
-      const ctx1 = testEnv.authenticatedContext('1');
+      const ctx1 = testEnv.authenticatedContext('alice');
       const ctx2 = testEnv.unauthenticatedContext();
-      const ref1 = doc(ctx1.firestore(), 'users', '1', 'private', 'payout');
-      const ref2 = doc(ctx2.firestore(), 'users', '1', 'private', 'payout');
-      await setDoc(ref1, { timestamp: serverTimestamp() });
+      const ref1 = doc(ctx1.firestore(), 'users', 'alice', 'private', 'payout');
+      const ref2 = doc(ctx2.firestore(), 'users', 'alice', 'private', 'payout');
+      await setDoc(ref1, { timestamp: serverTimestamp(), amount: 1 });
 
-      const p = setDoc(ref2, { timestamp: serverTimestamp() });
+      const p = updateDoc(ref2, { timestamp: serverTimestamp(), amount: 1 });
 
       await assertFails(p);
     });
 
     it('should reject payout update if authenticated but not as the user', async () => {
-      const ctx1 = testEnv.authenticatedContext('1');
-      const ctx2 = testEnv.authenticatedContext('2');
-      const ref1 = doc(ctx1.firestore(), 'users', '1', 'private', 'payout');
-      const ref2 = doc(ctx2.firestore(), 'users', '1', 'private', 'payout');
-      await setDoc(ref1, { timestamp: serverTimestamp() });
+      const ctx1 = testEnv.authenticatedContext('alice');
+      const ctx2 = testEnv.authenticatedContext('bob');
+      const ref1 = doc(ctx1.firestore(), 'users', 'alice', 'private', 'payout');
+      const ref2 = doc(ctx2.firestore(), 'users', 'alice', 'private', 'payout');
+      await setDoc(ref1, { timestamp: serverTimestamp(), amount: 1 });
 
-      const p = setDoc(ref2, { timestamp: serverTimestamp() });
+      const p = updateDoc(ref2, { timestamp: serverTimestamp(), amount: 1 });
 
       await assertFails(p);
     });
 
-    it('should reject payout update if too soon to update', async () => {
-      const ctx = testEnv.authenticatedContext('3');
-      const ref = doc(ctx.firestore(), 'users', '3', 'private', 'payout');
-      await setDoc(ref, { timestamp: serverTimestamp() });
-      await new Promise(resolve => setTimeout(resolve, 4_500));
+    it('should reject payout update if requesting more than legal', async () => {
+      const ctx = testEnv.authenticatedContext('alice');
+      const ref = doc(ctx.firestore(), 'users', 'alice', 'private', 'payout');
+      await setDoc(ref, { timestamp: serverTimestamp(), amount: 1 });
 
-      const p = setDoc(ref, { timestamp: serverTimestamp() });
+      const p = updateDoc(ref, { timestamp: serverTimestamp(), amount: 1000 });
 
       await assertFails(p);
     });
 
     it('should reject payout update if timestamp is illegal', async () => {
-      const ctx = testEnv.authenticatedContext('3');
-      const ref = doc(ctx.firestore(), 'users', '3', 'private', 'payout');
-      await setDoc(ref, { timestamp: serverTimestamp() });
-      await new Promise(resolve => setTimeout(resolve, 5_500));
+      const ctx = testEnv.authenticatedContext('alice');
+      const ref = doc(ctx.firestore(), 'users', 'alice', 'private', 'payout');
+      await setDoc(ref, { timestamp: serverTimestamp(), amount: 1 });
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
-      const p = setDoc(ref, { timestamp: Timestamp.now() });
+      const p = updateDoc(ref, { timestamp: Timestamp.now(), amount: 1 });
 
       await assertFails(p);
-    }, 10_000);
+    });
 
-    it('should pass payout update if late enough to update', async () => {
-      const ctx = testEnv.authenticatedContext('3');
-      const ref = doc(ctx.firestore(), 'users', '3', 'private', 'payout');
-      await setDoc(ref, { timestamp: serverTimestamp() });
-      await new Promise(resolve => setTimeout(resolve, 5_500));
+    it('should pass payout update if everything is ok', async () => {
+      const ctx = testEnv.authenticatedContext('alice');
+      const ref = doc(ctx.firestore(), 'users', 'alice', 'private', 'payout');
+      await setDoc(ref, { timestamp: serverTimestamp(), amount: 1 });
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
-      const p = setDoc(ref, { timestamp: serverTimestamp() });
+      const p = updateDoc(ref, { timestamp: serverTimestamp(), amount: 1000 });
 
       await assertSucceeds(p);
-    }, 10_000);
+    });
+
+    it('should respect user status values', async () => {
+      const ctx = testEnv.authenticatedContext('alice');
+      const ref = doc(ctx.firestore(), 'users', 'alice', 'private', 'payout');
+      await setDoc(ref, { timestamp: serverTimestamp(), amount: 1 });
+      await testEnv.withSecurityRulesDisabled(async c => {
+        await setDoc(
+          doc(c.firestore(), 'users', 'alice', 'private', 'status'),
+          {
+            payoutPerSecond: 5678,
+            multiplier: 1.5,
+          },
+        );
+      });
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      const p = updateDoc(ref, {
+        timestamp: serverTimestamp(),
+        amount: Math.floor(5678 * 1.5),
+      });
+
+      await assertSucceeds(p);
+    });
   });
 });
