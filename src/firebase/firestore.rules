@@ -11,7 +11,8 @@ service cloud.firestore {
       }
 
       function admin() {
-        return request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.admin;
+        return request.auth != null &&
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.admin;
       }
 
       allow read, write: if themselves();
@@ -40,12 +41,16 @@ service cloud.firestore {
           return request.resource.data.timestamp == request.time;
         }
 
+        function elapsedSeconds() {
+          return request.time.time().seconds() - resource.data.timestamp.time().seconds();
+        }
+
         function legalAmount() {
           return request.resource.data.amount > 0 &&
             request.resource.data.amount <=
             payoutPerSecond() *
             multiplier() *
-            (request.time.time().seconds() - resource.data.timestamp.time().seconds());
+            elapsedSeconds();
         }
 
         allow create: if themselves() && legalTimestamp();
