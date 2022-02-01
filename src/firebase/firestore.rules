@@ -15,7 +15,12 @@ service cloud.firestore {
           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.admin;
       }
 
-      allow read, write: if themselves();
+      function legalRequest() {
+        return !("admin" in request.resource.data) || request.resource.data.admin != true;
+      }
+
+      allow read: if themselves();
+      allow write: if themselves() && legalRequest();
 
       match /private/status {
 

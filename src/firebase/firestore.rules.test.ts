@@ -55,8 +55,9 @@ describe('firestore rules', () => {
 
   describe('status', () => {
     beforeEach(async () => {
-      const ctx = testEnv.authenticatedContext('admin');
-      await setDoc(doc(ctx.firestore(), 'users', 'admin'), { admin: true });
+      await testEnv.withSecurityRulesDisabled(async ctx => {
+        await setDoc(doc(ctx.firestore(), 'users', 'admin'), { admin: true });
+      });
     });
 
     it('should reject read if not authenticated', async () => {
@@ -111,6 +112,15 @@ describe('firestore rules', () => {
       const p = setDoc(ref, {});
 
       await assertSucceeds(p);
+    });
+
+    it('should reject write if requesting to be admin', async () => {
+      const ctx = testEnv.authenticatedContext('alice');
+      const ref = doc(ctx.firestore(), 'users', 'alice', 'private', 'status');
+
+      const p = setDoc(ref, { admin: true });
+
+      await assertFails(p);
     });
   });
 
